@@ -10,6 +10,7 @@ class Loginpage extends StatefulWidget {
 
 class _LoginpageState extends State<Loginpage> {
   String name = "";
+  bool changeButton = false;
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -46,13 +47,42 @@ class _LoginpageState extends State<Loginpage> {
               SizedBox(
                 height: 20,
               ),
-              ElevatedButton(
-                  onPressed: () {
-                    print("hello therer");
+              InkWell(
+                  onTap: () async {
+                    setState(() {
+                      changeButton = true;
+                    });
+                    await Future.delayed(Duration(seconds: 1));
                     Navigator.pushNamed(context, MyRoutes.homeRoute);
+                    print(changeButton);
                   },
-                  child: Text("Login"),
-                  style: TextButton.styleFrom(minimumSize: Size(150, 40))),
+                  child: AnimatedContainer(
+                    duration: Duration(seconds: 1),
+                    width: changeButton ? 50 : 150,
+                    alignment: Alignment.center,
+                    height: 50,
+                    child: changeButton
+                        ? Icon(
+                            Icons.done,
+                            color: Colors.white,
+                          )
+                        : Text(
+                            "Login",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                    decoration: BoxDecoration(
+                        color: Colors.deepPurpleAccent,
+                        borderRadius:
+                            BorderRadius.circular(changeButton ? 50 : 10)),
+                  )),
+
+              // ElevatedButton(
+              //     onPressed: () {
+              //       print("hello therer");
+              //       Navigator.pushNamed(context, MyRoutes.homeRoute);
+              //     },
+              //     child: Text("Login"),
+              //     style: TextButton.styleFrom(minimumSize: Size(150, 40))),
             ],
           ),
         )));
